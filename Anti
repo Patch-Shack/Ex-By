@@ -1,0 +1,27 @@
+--// Intercepts StateChanged/Changed Connections to Bypass Simple Anti-Exploits
+
+speaker = game.Players.LocalPlayer
+spawn(function()
+for _, signal in pairs(getconnections(speaker.Character.Humanoid.Changed)) do signal:Disable() end
+end)
+spawn(function()
+for _, signal in pairs(getconnections(speaker.Character.Humanoid.StateChanged)) do signal:Disable() end
+end)
+spawn(function()
+for _, signal in pairs(getconnections(speaker.Character.Humanoid.Changed)) do signal:Disable() end
+end)
+spawn(function()
+for _, signal in pairs(getconnections(speaker.Character.Humanoid.StateChanged)) do signal:Disable() end
+end)
+local meta = debug.getmetatable(game)
+local newindex = meta.__newindex
+local namecall = meta.__namecall
+setreadonly(meta,false)
+meta.__namecall = newcclosure(function(self,...)
+local args = {...}
+local t = getnamecallmethod()
+if t == "Kick" then
+return wait(9e9)
+end
+return namecall(self,...)
+end)
